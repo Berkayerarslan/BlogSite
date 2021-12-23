@@ -51,7 +51,8 @@ namespace BlogSite.Src.Repositories
 
         public void Update(Post model)
         {
-            throw new NotImplementedException();
+            _db.Posts.Update(model);
+            _db.SaveChanges();
         }
     }
 }

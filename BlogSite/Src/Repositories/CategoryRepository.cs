@@ -1,4 +1,5 @@
-﻿using BlogSite.Src.Entities;
+﻿using BlogSite.Src.EFCore;
+using BlogSite.Src.Entities;
 using BlogSite.Src.SeedWork;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,17 @@ namespace BlogSite.Src.Repositories
 {
     public class CategoryRepository : IRepository<Category>
     {
+
+        private readonly ApplicationDbContext _db;
+
+        public CategoryRepository(ApplicationDbContext db)
+        {
+            _db = db;
+        }
         public void Add(Category model)
         {
-            throw new NotImplementedException();
+            _db.Categories.Add(model);
+            _db.SaveChanges();
         }
 
         public void Delete(string Id)
@@ -21,12 +30,13 @@ namespace BlogSite.Src.Repositories
 
         public Category Find(string Id)
         {
-            throw new NotImplementedException();
+           return _db.Categories.Find(Id);
+
         }
 
         public List<Category> List()
         {
-            throw new NotImplementedException();
+            return _db.Categories.ToList();
         }
 
         public void Save()

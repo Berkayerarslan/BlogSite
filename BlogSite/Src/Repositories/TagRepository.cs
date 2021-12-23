@@ -1,4 +1,5 @@
-﻿using BlogSite.Src.Entities;
+﻿using BlogSite.Src.EFCore;
+using BlogSite.Src.Entities;
 using BlogSite.Src.SeedWork;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,17 @@ namespace BlogSite.Src.Repositories
 {
     public class TagRepository : IRepository<Tag>
     {
+        private readonly ApplicationDbContext _db;
+        
+
+        public TagRepository(ApplicationDbContext db)
+        {
+            _db = db;
+        }
         public void Add(Tag model)
         {
-            throw new NotImplementedException();
+            _db.Tags.Add(model);
+            _db.SaveChanges();    
         }
 
         public void Delete(string Id)
@@ -21,7 +30,8 @@ namespace BlogSite.Src.Repositories
 
         public Tag Find(string Id)
         {
-            throw new NotImplementedException();
+            return _db.Tags.Find(Id);
+            
         }
 
         public List<Tag> List()

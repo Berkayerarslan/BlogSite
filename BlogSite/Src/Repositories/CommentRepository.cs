@@ -1,4 +1,5 @@
-﻿using BlogSite.Src.Entities;
+﻿using BlogSite.Src.EFCore;
+using BlogSite.Src.Entities;
 using BlogSite.Src.SeedWork;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,16 @@ namespace BlogSite.Src.Repositories
 {
     public class CommentRepository : IRepository<Comment>
     {
+        private readonly ApplicationDbContext _db;
+
+        public CommentRepository(ApplicationDbContext db)
+        {
+            _db = db;
+        }
         public void Add(Comment model)
         {
-            throw new NotImplementedException();
+            _db.Comments.Add(model);
+            _db.SaveChanges();
         }
 
         public void Delete(string Id)
@@ -21,12 +29,12 @@ namespace BlogSite.Src.Repositories
 
         public Comment Find(string Id)
         {
-            throw new NotImplementedException();
+            return _db.Comments.Find(Id);
         }
 
         public List<Comment> List()
         {
-            throw new NotImplementedException();
+            return _db.Comments.ToList();
         }
 
         public void Save()
@@ -41,7 +49,8 @@ namespace BlogSite.Src.Repositories
 
         public void Update(Comment model)
         {
-            throw new NotImplementedException();
+            _db.Comments.Update(model);
+            _db.SaveChanges();
         }
     }
 }
