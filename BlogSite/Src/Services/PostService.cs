@@ -29,9 +29,19 @@ namespace BlogSite.Src.Services
         {
            return _postRepo.List();
         }
+
+        public List<Post> getPostByTitle(string title)
+        {
+            return _postRepo.List().Where(x => x.Title == title).ToList();
+        }
         public Post GetPostById(string Id)
         {
             return _postRepo.Find(Id);
+        }
+
+        public int GetCommentCount(string Id)
+        {
+            return GetPostById(Id).Comments.Count();
         }
 
         public List<Post> GetLastAddedThreePost()
@@ -55,7 +65,7 @@ namespace BlogSite.Src.Services
             var tags = _tagRepo.List();
             var selectTag = tags.Find(x => x.Id == tagId);
 
-            List<Post> selectedPosts;
+            List<Post> selectedPosts = new List<Post>();
 
             selectedPosts = selectTag.Posts;
 

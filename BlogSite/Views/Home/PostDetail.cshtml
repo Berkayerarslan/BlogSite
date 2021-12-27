@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewData["Title"] = "PostDetail";
+}
+@model PostViewModel
+
+<section class="blog-posts grid-system">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="all-blog-posts">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="blog-post">
+                                <div class="blog-thumb">
+                                    <img src="wwwroot/images/blog-post-02.jpg" alt="">
+                                </div>
+                                <div class="down-content">
+                                    <span>@Model.Post.Title</span>
+                                    
+                                    <ul class="post-info">
+                                        <li><a href="#">@Model.Post.AuthorName</a></li>
+                                        <li><a href="#">@Model.Post.CreateTime</a></li>
+                                        <li><a href="#">@Model.Post.Comments.Count().ToString() Comments</a></li>
+                                    </ul>
+                                    <p>
+                                        @Model.Post.Content
+                                    </p>
+                                    <div class="post-options">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <ul class="post-tags">
+                                                    <li><i class="fa fa-tags"></i></li>
+                                                    @foreach (var tag in Model.Tags) 
+	                                               {
+                                                            <li><a href="#">@tag.Name</a></li>            
+	                                               }
+                                                    
+                                                </ul>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="sidebar-item comments">
+                                <div class="sidebar-heading">
+                                    <h2>@Model.Post.Comments.Count().ToString() comments</h2>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        <li>
+
+                                            @*<div class="author-thumb">
+            <img src="assets/images/comment-author-01.jpg" alt="">
+        </div>*@
+
+                                            @foreach (var comment in Model.Post.Comments)
+                                            {
+                                                <div class="right-content">
+                                                    <h4>@Model.Post.AuthorName<span>@comment.CreateTime</span></h4>
+                                                    <p>@comment.Content</p>
+                                                </div>
+                                            }
+
+                                        </li>
+                                       
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="sidebar-item submit-comment">
+                                <div class="sidebar-heading">
+                                    <h2>Your comment</h2>
+                                </div>
+                                <div class="content">
+                                    <form id="comment" action="#" method="post">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <fieldset>
+                                                    <input name="name" type="text" id="name" placeholder="Your name" required="">
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <fieldset>
+                                                    <input name="email" type="text" id="email" placeholder="Your email" required="">
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12">
+                                                <fieldset>
+                                                    <input name="subject" type="text" id="subject" placeholder="Subject">
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <fieldset>
+                                                    <textarea name="message" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <fieldset>
+                                                    <button type="submit" id="form-submit" class="main-button">Submit</button>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="row">
+
+                        @await Component.InvokeAsync("RecentPosts")
+                        @await Component.InvokeAsync("Categories")
+
+                        <div class="col-lg-12">
+                            <div class="sidebar-item tags">
+                                <div class="sidebar-heading">
+                                    <h2>Tag Clouds</h2>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        @foreach (var tag in Model.Tags)
+                                        {
+                                            <li><a href="/Home/Index?type=tag&id=@tag.Id">@tag.Name</a></li>
+                                        }
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

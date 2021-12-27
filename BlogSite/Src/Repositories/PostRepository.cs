@@ -1,6 +1,7 @@
 ﻿using BlogSite.Src.EFCore;
 using BlogSite.Src.Entities;
 using BlogSite.Src.SeedWork;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,12 @@ namespace BlogSite.Src.Repositories
 
         public Post Find(string Id)
         {
-            return _db.Posts.Find(Id);
+            return _db.Posts.Include(x => x.Comments).FirstOrDefault(x => x.Id == Id);
         }
 
         public List<Post> List()
         {
-            return _db.Posts.ToList();
+            return _db.Posts.Include(x => x.Tags).Include(x => x.Comments).ToList();
         }
 
         public void Save()

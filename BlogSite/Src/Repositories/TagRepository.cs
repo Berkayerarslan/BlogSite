@@ -1,6 +1,7 @@
 ﻿using BlogSite.Src.EFCore;
 using BlogSite.Src.Entities;
 using BlogSite.Src.SeedWork;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace BlogSite.Src.Repositories
             _db.SaveChanges();    
         }
 
+        internal object Include()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(string Id)
         {
             throw new NotImplementedException();
@@ -30,13 +36,13 @@ namespace BlogSite.Src.Repositories
 
         public Tag Find(string Id)
         {
-            return _db.Tags.Find(Id);
+            return _db.Tags.Include(x=> x.Posts).FirstOrDefault(x=> x.Id == Id);
             
         }
 
         public List<Tag> List()
         {
-            throw new NotImplementedException();
+            return _db.Tags.Include(x => x.Posts).ToList();
         }
 
         public void Save()
